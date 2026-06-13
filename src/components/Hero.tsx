@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Star, Clock, MapPin, ArrowDown } from "lucide-react";
 import type { HeroContent, RestaurantInfo } from "../types";
 
@@ -9,6 +10,11 @@ export function Hero({ isOpen, heroContent, restaurantInfo }: {
   heroContent: HeroContent;
   restaurantInfo: RestaurantInfo;
 }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const scrollTo = (id: string) => document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
@@ -41,9 +47,9 @@ export function Hero({ isOpen, heroContent, restaurantInfo }: {
                 boxShadow: "var(--shadow-sm)",
               }}>
               <div className="w-2 h-2 rounded-full animate-pulse"
-                style={{ background: isOpen ? "#16a34a" : "#dc2626" }} />
-              <span className="text-xs font-semibold" style={{ color: isOpen ? "#16a34a" : "#dc2626" }}>
-                {isOpen ? "Open Now" : "Closed"}
+                style={{ background: mounted ? (isOpen ? "#16a34a" : "#dc2626") : "#16a34a" }} />
+              <span className="text-xs font-semibold" style={{ color: mounted ? (isOpen ? "#16a34a" : "#dc2626") : "#16a34a" }}>
+                {mounted ? (isOpen ? "Open Now" : "Closed") : "Checking Hours..."}
               </span>
               <span style={{ color: "var(--border-strong)", fontSize: "10px" }}>|</span>
               <span className="text-xs" style={{ color: "var(--brown-muted)" }}>
